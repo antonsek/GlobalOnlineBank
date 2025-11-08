@@ -33,7 +33,7 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                     b.Property<string>("Bin")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("EnName")
@@ -80,6 +80,138 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                             IsNew = true,
                             KzName = "ТОО Рахат",
                             RuName = "ТОО Рахат"
+                        });
+                });
+
+            modelBuilder.Entity("GlobalOnlinebank.Domain.Entities.Tariff", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("BonusPoints")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("CommissionDiscountPercent")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("HasPersonalManager")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasPriorityService")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("MaxPoints")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MinPoints")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("RateImprovementPercent")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tariffs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1L,
+                            BonusPoints = 0,
+                            CommissionDiscountPercent = 0m,
+                            CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "0–3000 баллов — стандартные условия",
+                            HasPersonalManager = false,
+                            HasPriorityService = false,
+                            MaxPoints = 2999,
+                            MinPoints = 0,
+                            Name = "Base",
+                            RateImprovementPercent = 0m
+                        },
+                        new
+                        {
+                            Id = -2L,
+                            BonusPoints = 10000,
+                            CommissionDiscountPercent = 3m,
+                            CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "3000–6000 баллов — скидка 3%, бонус 10 000 баллов",
+                            HasPersonalManager = false,
+                            HasPriorityService = false,
+                            MaxPoints = 5999,
+                            MinPoints = 3000,
+                            Name = "Prime",
+                            RateImprovementPercent = 0m
+                        },
+                        new
+                        {
+                            Id = -3L,
+                            BonusPoints = 20000,
+                            CommissionDiscountPercent = 5m,
+                            CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "6000–8000 баллов — скидка 5%, бонус 20 000 баллов, улучшение курса +0.05%",
+                            HasPersonalManager = false,
+                            HasPriorityService = false,
+                            MaxPoints = 7999,
+                            MinPoints = 6000,
+                            Name = "Prime PRO",
+                            RateImprovementPercent = 0.05m
+                        },
+                        new
+                        {
+                            Id = -4L,
+                            BonusPoints = 30000,
+                            CommissionDiscountPercent = 7m,
+                            CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "8000–10000 баллов — скидка 7%, бонус 30 000, приоритетная обработка",
+                            HasPersonalManager = false,
+                            HasPriorityService = true,
+                            MaxPoints = 9999,
+                            MinPoints = 8000,
+                            Name = "Advance",
+                            RateImprovementPercent = 0m
+                        },
+                        new
+                        {
+                            Id = -5L,
+                            BonusPoints = 40000,
+                            CommissionDiscountPercent = 10m,
+                            CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "10 000–15 000 баллов — скидка 10%, бонус 40 000, персональный менеджер",
+                            HasPersonalManager = true,
+                            HasPriorityService = true,
+                            MaxPoints = 14999,
+                            MinPoints = 10000,
+                            Name = "Executive",
+                            RateImprovementPercent = 0.05m
+                        },
+                        new
+                        {
+                            Id = -6L,
+                            BonusPoints = 50000,
+                            CommissionDiscountPercent = 15m,
+                            CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Description = "15 000+ баллов — скидка 15%, бонус 50 000, полный пакет привилегий",
+                            HasPersonalManager = true,
+                            HasPriorityService = true,
+                            MaxPoints = 2147483647,
+                            MinPoints = 15000,
+                            Name = "Privilege",
+                            RateImprovementPercent = 0.1m
                         });
                 });
 #pragma warning restore 612, 618

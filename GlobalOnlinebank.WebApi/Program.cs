@@ -19,6 +19,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IContragentRepository, ContragentRepository>();
 builder.Services.AddScoped<IContragentService, ContragentService>();
 
+builder.Services.AddScoped<ITariffRepository, TariffRepository>();
+builder.Services.AddScoped<ITariffService, TariffService>();
+
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
