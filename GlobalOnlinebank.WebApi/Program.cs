@@ -21,6 +21,9 @@ builder.Services.AddScoped<IContragentService, ContragentService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 
+builder.Services.AddScoped<ITariffRepository, TariffRepository>();
+builder.Services.AddScoped<ITariffService, TariffService>();
+
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
