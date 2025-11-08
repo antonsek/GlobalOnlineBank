@@ -12,7 +12,8 @@ namespace GlobalOnlinebank.Domain.Entities
         public bool IsNew { get; private set; }
         public bool IsActive { get; private set; }
 
-        public List<Contragent> Partners { get; private set; }
+        public List<Contragent> Partners { get; private set; } = new();
+        public List<Contragent> PartnerOf { get; private set; } = new();
 
         public List<Account> Accounts { get; private set; }
 
@@ -53,6 +54,19 @@ namespace GlobalOnlinebank.Domain.Entities
                 throw new InvalidOperationException("Counterparty already has a main account.");
 
             Accounts.Add(account);
+        }
+        
+        public void AddPartner(Contragent partner)
+        {
+            if (partner == null)
+                throw new ArgumentNullException(nameof(partner));
+            if (partner == this)
+                throw new InvalidOperationException("Contragent cannot be a partner with itself.");
+            if (Partners.Contains(partner))
+                return;
+
+            Partners.Add(partner);
+            partner.PartnerOf.Add(this);
         }
     }
 }
