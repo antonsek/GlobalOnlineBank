@@ -11,16 +11,16 @@ namespace GlobalOnlinebank.Infrastructure.Data
         {
         }
 
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Contragent> Contragents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>().HasKey(p => p.Id);
+            modelBuilder.Entity<Contragent>().HasKey(p => p.Id);
 
             // Seed data
-            modelBuilder.Entity<Product>().HasData(
-                new Product("Test Product 1", "Description 1", 19.99m) { Id = 1 },
-                new Product("Test Product 2", "Description 2", 29.99m) { Id = 2 }
+            modelBuilder.Entity<Contragent>().HasData(
+                new Contragent("ТОО Колбаса","ТОО Колбаса","LLP Kolbasa",  "961545123222") { Id = -1, CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, DateTimeKind.Utc)},
+                new Contragent("ТОО Рахат","ТОО Рахат","LLP Rahat",  "961545123251") { Id = -2, CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, DateTimeKind.Utc) }
             );
         }
     }

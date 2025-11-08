@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GlobalOnlinebank.UnitTests.Infrastructure
 {
-    public class ProductRepositoryTests
+    public class ContragentRepositoryTests
     {
         private readonly DbContextOptions<ApplicationDbContext> _dbContextOptions;
 
-        public ProductRepositoryTests()
+        public ContragentRepositoryTests()
         {
             _dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
@@ -21,17 +21,17 @@ namespace GlobalOnlinebank.UnitTests.Infrastructure
         {
             // Arrange
             using var context = new ApplicationDbContext(_dbContextOptions);
-            var repository = new ProductRepository(context);
-            var product = new Product("Test Product", "Description", 19.99m);
+            var repository = new ContragentRepository(context);
+            var contragent = new Contragent("ТОО Рахат","ТОО Рахат","LLP Rahat",  "961545123258");
 
             // Act
-            var result = await repository.AddAsync(product);
+            var result = await repository.AddAsync(contragent);
 
             // Assert
             Assert.NotEqual(0, result.Id);
-            var savedProduct = await context.Products.FindAsync(result.Id);
-            Assert.NotNull(savedProduct);
-            Assert.Equal(product.Name, savedProduct.Name);
+            var savedContragent = await context.Contragents.FindAsync(result.Id);
+            Assert.NotNull(savedContragent);
+            Assert.Equal(contragent.RuName, savedContragent.RuName);
         }
 
         [Fact]
@@ -39,11 +39,11 @@ namespace GlobalOnlinebank.UnitTests.Infrastructure
         {
             // Arrange
             using var context = new ApplicationDbContext(_dbContextOptions);
-            var repository = new ProductRepository(context);
+            var repository = new ContragentRepository(context);
 
-            await context.Products.AddRangeAsync(
-                new Product("Test 1", "Description 1", 19.99m),
-                new Product("Test 2", "Description 2", 29.99m)
+            await context.Contragents.AddRangeAsync(
+                new Contragent("ТОО Колбаса","ТОО Колбаса","LLP Kolbasa",  "961545123222"),
+            new Contragent("ТОО Рахат","ТОО Рахат","LLP Rahat",  "961545123251")
             );
             await context.SaveChangesAsync();
 
