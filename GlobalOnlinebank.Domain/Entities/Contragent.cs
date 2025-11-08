@@ -12,6 +12,10 @@ namespace GlobalOnlinebank.Domain.Entities
         public bool IsNew { get; private set; }
         public bool IsActive { get; private set; }
 
+        public List<Contragent> Partners { get; private set; }
+
+        public List<Account> Accounts { get; private set; }
+
         public Contragent(string ruName, string kzName,string enName, string bin)
         {
             if (string.IsNullOrWhiteSpace(ruName) && string.IsNullOrWhiteSpace(kzName) && string.IsNullOrWhiteSpace(enName))
@@ -25,6 +29,7 @@ namespace GlobalOnlinebank.Domain.Entities
             Bin = bin;
             IsActive = true;
             IsNew = true;
+            Accounts = new List<Account>();
         }
 
         public void UpdateDetails(string ruName, string kzName,string enName, string bin, bool isActive, bool isNew)
@@ -40,6 +45,14 @@ namespace GlobalOnlinebank.Domain.Entities
             Bin = bin;
             IsActive = isActive;
             IsNew = isNew;
+        }
+
+        public void AddAccount(Account account)
+        {
+            if (account.AccountType == AccountType.Main && Accounts.Any(a => a.AccountType == AccountType.Main))
+                throw new InvalidOperationException("Counterparty already has a main account.");
+
+            Accounts.Add(account);
         }
     }
 }
