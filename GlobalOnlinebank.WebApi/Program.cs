@@ -18,6 +18,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IContragentRepository, ContragentRepository>();
 builder.Services.AddScoped<IContragentService, ContragentService>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 builder.Services.AddScoped<ITariffRepository, TariffRepository>();
 builder.Services.AddScoped<ITariffService, TariffService>();
