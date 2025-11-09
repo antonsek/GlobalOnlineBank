@@ -18,8 +18,10 @@ namespace GlobalOnlinebank.Infrastructure.Configurations
 
             builder.HasOne(c => c.Tariff)
               .WithMany(t => t.Contragents) // если у Tariff нет коллекции компаний
-              .HasForeignKey(c => c.tariffId);
+              .HasForeignKey(c => c.TariffId);
 
+            builder.Property(c => c.TariffId)
+                .HasDefaultValue(-1);
 
             // Seed data
             builder.HasData(

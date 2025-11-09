@@ -15,8 +15,8 @@ namespace GlobalOnlinebank.Domain.Entities
         public string ReceiverAccountNumber { get; private set; }
         public decimal Amount { get; private set; }
         public decimal Commission { get; private set; }
-        public int BonusPointsUsed { get; private set; }
-        public int BonusPointsEarned { get; private set; }
+        public decimal BonusPointsUsed { get; private set; }
+        public decimal BonusPointsEarned { get; private set; }
         public string Currency { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
@@ -54,7 +54,8 @@ namespace GlobalOnlinebank.Domain.Entities
             string paymentPurpose,
             string bonusAccountNumber,
             string comissionAccountNumber,
-            bool useBonusAccount = false)
+            decimal bonusPointsUsed,
+            decimal bonusPointsEarned)
         {
             SenderAccountId = senderAccountId;
             ReceiverAccountId = receiverAccountId;
@@ -72,6 +73,8 @@ namespace GlobalOnlinebank.Domain.Entities
             CreatedAt = DateTime.UtcNow;
             BonusAccountNumber = bonusAccountNumber;
             ComissionAccountNumber = comissionAccountNumber;
+            BonusPointsUsed = bonusPointsUsed;
+            BonusPointsEarned = bonusPointsEarned;
         }
     }
 }

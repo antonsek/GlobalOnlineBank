@@ -7,8 +7,8 @@
         string ReceiverAccountNumber,
         decimal Amount,
         decimal Commission,
-        int BonusPointsUsed,
-        int BonusPointsEarned,
+        decimal BonusPointsUsed,
+        decimal BonusPointsEarned,
         string Currency,
         DateTime CreatedAt,
 

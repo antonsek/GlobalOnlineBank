@@ -21,7 +21,7 @@ namespace GlobalOnlinebank.Application.Interfaces
         Task UpdateAsync(long id, UpdateAccountDto dto);
         Task DeleteAsync(long id);
 
-        Task<AccountDto> GetByAccNumberAsync(string id);
+        Task<AccountDto> GetByAccNumberAsync(string accountNumber);
 
         Task<AccountDto> GetBonusAccount();
 

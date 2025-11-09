@@ -52,13 +52,10 @@ namespace GlobalOnlinebank.Infrastructure.Repositories
 
         public async Task<Account> GetByAccNumberAsync(string accNumber)
         {
-            return await _context.Accounts.FindAsync(accNumber);
+            return await _context.Accounts
+                        .FirstOrDefaultAsync(a => a.AccountNumber == accNumber);
         }
 
-        public async Task<Tariff> GetTariff(long id)
-        {
-            return await _context.Tariffs.FindAsync(id);
-        }
 
         public async Task<string> GetLastIban()
         {

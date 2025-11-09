@@ -18,7 +18,7 @@ namespace GlobalOnlinebank.Domain.Entities
 
         public Tariff? Tariff { get; private set; }
         
-        public long? tariffId { get; private set; }
+        public long TariffId { get; private set; }
 
         public Contragent(string ruName, string kzName,string enName, string bin)
         {

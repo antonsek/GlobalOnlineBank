@@ -62,20 +62,20 @@ namespace GlobalOnlinebank.Application.Services
                     {
                         // хватает на полное покрытие половины комиссии
                         bonusAmount = maxBonusCover;
-                        await _accountService.WithdrawBalance(senderBonusAccount.Id, bonusAmount, request.Currency);
+                        await _accountService.WithdrawBalance(senderBonusAccount.Id, bonusAmount, "KZT");
                     }
                     else if (senderBonusAccount.Balance > 0)
                     {
                         // не хватает, списываем сколько есть
                         bonusAmount = senderBonusAccount.Balance;
-                        await _accountService.WithdrawBalance(senderBonusAccount.Id, bonusAmount, request.Currency);
+                        await _accountService.WithdrawBalance(senderBonusAccount.Id, bonusAmount, "KZT");
                     }
                 }
 
 
                 decimal commission = baseCommission - (baseCommission * tariff.CommissionDiscountPercent / 100) - bonusAmount;
 
-                await _accountService.WithdrawBalance(senderAccountComissionPayer.Id, commission, request.Currency);
+                await _accountService.WithdrawBalance(senderAccountComissionPayer.Id, commission, "KZT");
 
                 // 2. Снять деньги у отправителя и начисление бонуса
 
@@ -84,14 +84,14 @@ namespace GlobalOnlinebank.Application.Services
 
                 var bonusAccount = _accountService.GetBonusAccount();
                 var newBonusPoints = _tariffService.CalculatePoints(Converter.Convert(request.Amount, request.Currency, "KZT"), request.RecipientCountry, request.PaymentPurpose);// 1 бонус за каждые 10 000 KZT перевода
-                if (bonusAccount != null)
+                if (bonusAccount == null)
                 {
                     var newBonusAccount = await _accountService.CreateAsync(new CreateAccountDto(senderData.Id, _accountService.GenereateIban().ToString(), "KZT", 0, AccountType.Bonus));
                     await _accountService.DepositBalance(newBonusAccount.Id, newBonusPoints, "KZT");
                 }
                 else
                 {
-                    await _accountService.DepositBalance(bonusAccount.Id, newBonusPoints, "KZT");
+                    await _accountService.DepositBalance(bonusAccount.Result.Id, newBonusPoints, "KZT");
                 }
 
                 // 3. Пополнить получателя
@@ -124,7 +124,9 @@ namespace GlobalOnlinebank.Application.Services
                     request.RecipientAddress,
                     request.PaymentPurpose,
                     request.BonusAccountNumber,
-                    request.CommissionPayerAccountNumber
+                    request.CommissionPayerAccountNumber,
+                    bonusAmount,
+                    newBonusPoints
                     );
                 var response = await _transactionRepository.CreateAsync(transaction, ct);
 

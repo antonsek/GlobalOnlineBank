@@ -21,7 +21,7 @@ public static class ContragentMappingExtensions
             Bin: entity.Bin,
             IsNew: entity.IsNew,
             IsActive: entity.IsActive,
-            tariffId: entity.tariffId ?? 0
+            tariffId: entity.TariffId
         );
     }
 
