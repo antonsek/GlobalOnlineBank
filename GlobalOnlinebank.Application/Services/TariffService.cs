@@ -2,6 +2,7 @@
 using GlobalOnlinebank.Application.Extensions;
 using GlobalOnlinebank.Application.Interfaces;
 using GlobalOnlinebank.Domain.Interfaces;
+using System.Threading;
 
 namespace GlobalOnlinebank.Application.Services;
 
@@ -105,5 +106,5 @@ public class TariffService : ITariffService
             };
         }
 
-        #endregion
-    }
+    #endregion
+}

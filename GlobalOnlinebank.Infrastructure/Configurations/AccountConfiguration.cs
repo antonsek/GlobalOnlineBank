@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,30 @@ namespace GlobalOnlinebank.Infrastructure.Configurations
             // Индекс для быстрого поиска по номеру счёта
             builder.HasIndex(a => a.AccountNumber)
                    .IsUnique();
+           
+            builder.HasData(
+               new Account(-1, "KZ1000000001", "KZT", AccountType.Main)
+               {
+                   Id = -1,
+                   CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, DateTimeKind.Utc),
+                   Balance = 10000m,
+                   IsActive = true,
+               },
+               new Account(-1, "KZ1000000002", "KZT", AccountType.Bonus)
+               {
+                   Id = -2,
+                   Balance = 500m,
+                   CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, DateTimeKind.Utc),
+                   IsActive = true,
+               },
+               new Account(-1, "KZ1000000003", "USD", AccountType.Main)
+               {
+                   Id = -3,
+                   Balance = 20000m,
+                   CreatedDate = new DateTime(2024, 11, 8, 0, 0, 0, DateTimeKind.Utc),
+                   IsActive = true,
+               }
+           );
         }
     }
 }

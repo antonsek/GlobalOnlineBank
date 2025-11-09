@@ -29,6 +29,8 @@ public class Tariff : BaseEntity
     // Флаг наличия персонального менеджера
     public bool HasPersonalManager { get; private set; }
 
+    public List<Contragent> Contragents { get; private set; } = new();
+
     public Tariff(
         string name,
         string description,
@@ -49,6 +51,7 @@ public class Tariff : BaseEntity
         BonusPoints = bonusPoints;
         HasPriorityService = hasPriorityService;
         HasPersonalManager = hasPersonalManager;
+        Contragents = new List<Contragent>();
     }
 
     public bool IsInRange(int points) =>

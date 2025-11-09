@@ -16,6 +16,10 @@ namespace GlobalOnlinebank.Domain.Entities
 
         public List<Account> Accounts { get; private set; }
 
+        public Tariff? Tariff { get; private set; }
+        
+        public long? tariffId { get; private set; }
+
         public Contragent(string ruName, string kzName,string enName, string bin)
         {
             if (string.IsNullOrWhiteSpace(ruName) && string.IsNullOrWhiteSpace(kzName) && string.IsNullOrWhiteSpace(enName))

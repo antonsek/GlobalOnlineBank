@@ -19,4 +19,5 @@ public class TariffRepository : ITariffRepository
 
     public async Task<Tariff?> GetByPointsAsync(int points, CancellationToken cancellationToken = default) =>
         await _context.Tariffs.FirstOrDefaultAsync(t => t.MinPoints <= points && t.MaxPoints >= points, cancellationToken);
+
 }
