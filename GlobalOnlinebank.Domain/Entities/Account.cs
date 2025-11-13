@@ -50,5 +50,15 @@ namespace GlobalOnlinebank.Domain.Entities
 
             Balance -= amount;
         }
+
+        public void UpdateStatus(bool isActive)
+        {
+            IsActive = isActive;
+        }
+    }
+    public enum AccountType
+    {
+        Main = 1,
+        Bonus = 2
     }
 }

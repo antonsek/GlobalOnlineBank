@@ -12,5 +12,5 @@ namespace GlobalOnlinebank.Application.DTOs
 
     public record CreateAccountDto(long ContragentID, string AccountNumber, string Currency, decimal Balance, AccountType AccountType);
 
-    public record UpdateAccountDto(string AccountNumber, string Currency, decimal Balance, bool IsActive);
+    public record UpdateAccountDto( decimal Balance, bool IsActive);
 }

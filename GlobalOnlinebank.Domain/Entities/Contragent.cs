@@ -17,6 +17,12 @@ namespace GlobalOnlinebank.Domain.Entities
 
         public List<Account> Accounts { get; private set; }
 
+        public Tariff? Tariff { get; private set; }
+        
+        public long TariffId { get; private set; }
+
+        public decimal quarterBonus { get; private set; }
+
         public Contragent(string ruName, string kzName,string enName, string bin)
         {
             if (string.IsNullOrWhiteSpace(ruName) && string.IsNullOrWhiteSpace(kzName) && string.IsNullOrWhiteSpace(enName))
@@ -31,6 +37,7 @@ namespace GlobalOnlinebank.Domain.Entities
             IsActive = true;
             IsNew = true;
             Accounts = new List<Account>();
+            quarterBonus = 0m;
         }
 
         public void UpdateDetails(string ruName, string kzName,string enName, string bin, bool isActive, bool isNew)

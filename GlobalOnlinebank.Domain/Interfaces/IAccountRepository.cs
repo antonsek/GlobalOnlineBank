@@ -14,5 +14,8 @@ namespace GlobalOnlinebank.Domain.Interfaces
         Task<Account> AddAsync(Account account);
         Task UpdateAsync(Account account);
         Task DeleteAsync(long id);
+        Task<Account> GetByAccNumberAsync(string accNumber);
+
+        Task<string> GetLastIban();
     }
 }
