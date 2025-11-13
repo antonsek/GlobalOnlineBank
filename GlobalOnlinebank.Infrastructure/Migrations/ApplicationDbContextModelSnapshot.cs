@@ -114,9 +114,6 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                     b.Property<string>("Bin")
                         .HasColumnType("text");
 
-                    b.Property<long?>("ContragentId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -132,6 +129,9 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                     b.Property<string>("KzName")
                         .HasColumnType("text");
 
+                    b.Property<decimal>("LoyaltyPoints")
+                        .HasColumnType("numeric");
+
                     b.Property<string>("RuName")
                         .HasColumnType("text");
 
@@ -144,8 +144,6 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContragentId");
 
                     b.HasIndex("TariffId");
 
@@ -161,6 +159,7 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                             IsActive = true,
                             IsNew = true,
                             KzName = "ТОО Колбаса",
+                            LoyaltyPoints = 0m,
                             RuName = "ТОО Колбаса",
                             TariffId = 0L
                         },
@@ -173,8 +172,36 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                             IsActive = true,
                             IsNew = true,
                             KzName = "ТОО Рахат",
+                            LoyaltyPoints = 0m,
                             RuName = "ТОО Рахат",
                             TariffId = 0L
+                        });
+                });
+
+            modelBuilder.Entity("GlobalOnlinebank.Domain.Entities.ContragentPartner", b =>
+                {
+                    b.Property<long>("ContragentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PartnerId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ContragentId", "PartnerId");
+
+                    b.HasIndex("PartnerId");
+
+                    b.ToTable("ContragentPartners", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ContragentId = -1L,
+                            PartnerId = -2L
+                        },
+                        new
+                        {
+                            ContragentId = -2L,
+                            PartnerId = -1L
                         });
                 });
 
@@ -324,11 +351,11 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                     b.Property<string>("BonusAccountNumber")
                         .HasColumnType("text");
 
-                    b.Property<int>("BonusPointsEarned")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("BonusPointsEarned")
+                        .HasColumnType("numeric");
 
-                    b.Property<int>("BonusPointsUsed")
-                        .HasColumnType("integer");
+                    b.Property<decimal>("BonusPointsUsed")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("ComissionAccountNumber")
                         .HasColumnType("text");
@@ -403,10 +430,6 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
 
             modelBuilder.Entity("GlobalOnlinebank.Domain.Entities.Contragent", b =>
                 {
-                    b.HasOne("GlobalOnlinebank.Domain.Entities.Contragent", null)
-                        .WithMany("Partners")
-                        .HasForeignKey("ContragentId");
-
                     b.HasOne("GlobalOnlinebank.Domain.Entities.Tariff", "Tariff")
                         .WithMany("Contragents")
                         .HasForeignKey("TariffId")
@@ -414,6 +437,25 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Tariff");
+                });
+
+            modelBuilder.Entity("GlobalOnlinebank.Domain.Entities.ContragentPartner", b =>
+                {
+                    b.HasOne("GlobalOnlinebank.Domain.Entities.Contragent", "Contragent")
+                        .WithMany()
+                        .HasForeignKey("ContragentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GlobalOnlinebank.Domain.Entities.Contragent", "Partner")
+                        .WithMany()
+                        .HasForeignKey("PartnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contragent");
+
+                    b.Navigation("Partner");
                 });
 
             modelBuilder.Entity("GlobalOnlinebank.Domain.Entities.Transaction", b =>
@@ -437,8 +479,6 @@ namespace GlobalOnlinebank.Infrastructure.Migrations
             modelBuilder.Entity("GlobalOnlinebank.Domain.Entities.Contragent", b =>
                 {
                     b.Navigation("Accounts");
-
-                    b.Navigation("Partners");
                 });
 
             modelBuilder.Entity("GlobalOnlinebank.Domain.Entities.Tariff", b =>

@@ -21,7 +21,7 @@ namespace GlobalOnlinebank.Domain.Entities
         
         public long TariffId { get; private set; }
 
-        public decimal quarterBonus { get; private set; }
+        public decimal LoyaltyPoints { get; private set; }
 
         public Contragent(string ruName, string kzName,string enName, string bin)
         {
@@ -37,7 +37,7 @@ namespace GlobalOnlinebank.Domain.Entities
             IsActive = true;
             IsNew = true;
             Accounts = new List<Account>();
-            quarterBonus = 0m;
+            LoyaltyPoints = 0m;
         }
 
         public void UpdateDetails(string ruName, string kzName,string enName, string bin, bool isActive, bool isNew)
@@ -75,5 +75,46 @@ namespace GlobalOnlinebank.Domain.Entities
             Partners.Add(partner);
             partner.PartnerOf.Add(this);
         }
+
+        public void UpdateTariffAndApplyBonus(IEnumerable<Tariff> tariffs)
+        {
+            if (tariffs == null || !tariffs.Any())
+                throw new ArgumentException("Список тарифов пуст");
+
+            // Находим тариф, соответствующий текущему количеству бонусов
+            var newTariff = tariffs
+                .FirstOrDefault(t => LoyaltyPoints >= t.MinPoints && LoyaltyPoints <= t.MaxPoints);
+
+            if (newTariff == null)
+                return; // нет подходящего тарифа
+
+            // Если тариф изменился
+            if (Tariff.Id != newTariff.Id)
+            {
+                Tariff = newTariff;
+                TariffId = newTariff.Id;
+
+                // Находим бонусный счёт
+                var bonusAccount = Accounts.FirstOrDefault(a => a.AccountType == AccountType.Bonus);
+
+                if (bonusAccount == null)
+                    throw new InvalidOperationException("У контрагента нет бонусного счёта.");
+
+                // Зачисляем бонусные очки на бонусный счёт
+                if (newTariff.BonusPoints > 0)
+                {
+                    bonusAccount.Deposit(newTariff.BonusPoints);
+                }
+            }
+        }
+
+        public void AddLoyalityBonus(decimal points)
+        {
+            if (points <= 0)
+                throw new InvalidOperationException("Points must be positive.");
+
+            LoyaltyPoints += points;
+        }
+
     }
 }
