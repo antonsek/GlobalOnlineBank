@@ -152,6 +152,26 @@ namespace GlobalOnlinebank.Application.Services
             return _transactionRepository.GetByPeriodAsync(from, to, ct);
         }
 
+        public Task<List<Transaction>> GetFromCurrentQuarterAsync(CancellationToken ct = default)
+        {
+            var now = DateTime.UtcNow;
+
+            // Определяем номер квартала (1–4)
+            int quarter = (now.Month - 1) / 3 + 1;
+
+            // Первый месяц квартала
+            int startMonth = (quarter - 1) * 3 + 1;
+
+            // Начало квартала
+            var from = new DateTime(now.Year, startMonth, 1);
+
+            // Конец квартала: если квартал текущий, то до текущего момента
+            // Можно также взять строго конец квартала: new DateTime(now.Year, startMonth + 3, 1).AddTicks(-1)
+            var to = now;
+
+            return _transactionRepository.GetByPeriodAsync(from, to, ct);
+        }
+
         public Task<List<Transaction>> GetByPeriodAsync(DateTime from, DateTime to, CancellationToken ct = default)
         {
             return _transactionRepository.GetByPeriodAsync(from, to, ct);

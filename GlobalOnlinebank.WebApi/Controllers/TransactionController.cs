@@ -23,7 +23,7 @@ namespace GlobalOnlinebank.WebApi.Controllers
             var createdTransaction = await _service.ExecuteAsync(transaction, ct);
             if (createdTransaction == null)
                 return BadRequest("Transaction could not be created.");
-
+ 
             return Ok(createdTransaction);
         }
 
@@ -42,6 +42,13 @@ namespace GlobalOnlinebank.WebApi.Controllers
         public async Task<ActionResult<List<Transaction>>> GetFromCurrentMonth(CancellationToken ct)
         {
             var transactions = await _service.GetFromCurrentMonthAsync(ct);
+            return Ok(transactions);
+        }
+
+        [HttpGet("current-quarter")]
+        public async Task<ActionResult<List<Transaction>>> GetFromCurrentQuarter(CancellationToken ct)
+        {
+            var transactions = await _service.GetFromCurrentQuarterAsync(ct);
             return Ok(transactions);
         }
 

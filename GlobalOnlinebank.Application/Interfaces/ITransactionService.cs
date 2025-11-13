@@ -14,6 +14,8 @@ namespace GlobalOnlinebank.Application.Interfaces
 
         Task<Transaction> GetByIdAsync(long id, CancellationToken ct = default);
         Task<List<Transaction>> GetFromCurrentMonthAsync(CancellationToken ct = default);
+        Task<List<Transaction>> GetFromCurrentQuarterAsync(CancellationToken ct = default);
         Task<List<Transaction>> GetByPeriodAsync(DateTime from, DateTime to, CancellationToken ct = default);
+
     }
 }

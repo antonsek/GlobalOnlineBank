@@ -6,6 +6,7 @@ using GlobalOnlinebank.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -31,6 +32,12 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.MapControllers();
+
+app.UseRouting();
+app.UseStaticFiles();
+
+app.MapRazorPages();
 app.MapControllers();
 
 app.Run();
