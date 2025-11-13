@@ -93,7 +93,7 @@ namespace GlobalOnlinebank.Application.Services
                 {
                     await _accountService.DepositBalance(bonusAccount.Result.Id, newBonusPoints, "KZT");
                 }
-
+                await _contragentService.AddLoyaltyPointsAsync(senderData.Id, newBonusPoints);
                 // 3. Пополнить получателя
                 if (request.RecipientBankSwift == "HSBKKZKX")
                 {
