@@ -10,6 +10,12 @@ builder.Services.AddRazorPages();
 
 // Add services to the container.
 builder.Services.AddControllers();
+
+builder.Services.AddHttpClient("Api", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5117/");
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,17 +33,14 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 var app = builder.Build();
+
+app.UseStaticFiles();
+app.UseRouting();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
-app.UseAuthorization();
 app.MapControllers();
-
-app.UseRouting();
-app.UseStaticFiles();
-
 app.MapRazorPages();
-app.MapControllers();
 
 app.Run();

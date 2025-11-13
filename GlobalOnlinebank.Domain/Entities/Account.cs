@@ -35,7 +35,7 @@ namespace GlobalOnlinebank.Domain.Entities
 
         public void Deposit(decimal amount)
         {
-            if (amount <= 0)
+            if (amount < 0)
                 throw new InvalidOperationException("Deposit amount must be positive.");
 
             Balance += amount;
@@ -43,7 +43,7 @@ namespace GlobalOnlinebank.Domain.Entities
 
         public void Withdraw(decimal amount)
         {
-            if (amount <= 0)
+            if (amount < 0)
                 throw new InvalidOperationException("Withdraw amount must be positive.");
             if (Balance < amount)
                 throw new InvalidOperationException("Insufficient funds.");

@@ -55,6 +55,12 @@ namespace GlobalOnlinebank.Infrastructure.Repositories
             return await _context.Accounts
                         .FirstOrDefaultAsync(a => a.AccountNumber == accNumber);
         }
+        
+        public async Task<IEnumerable<Account>> GetByContragentIDAsync(long id)
+        {
+            return await _context.Accounts
+                .Where(a => a.ContragentID == id).ToListAsync();
+        }
 
 
         public async Task<string> GetLastIban()
