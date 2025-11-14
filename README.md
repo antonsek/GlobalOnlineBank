@@ -99,3 +99,5 @@ https://localhost:7283/CurrencyTransactionForm
 <img width="713" height="491" alt="Screenshot 2025-11-14 at 13 59 50" src="https://github.com/user-attachments/assets/fcc4d5e6-58b3-4583-8b6e-4f0acc03f174" />
 
 для взамодействия будет использоваться webapi. В качестве транзакционной системы и где будут держатся счета будет колвир. Для оркестрации планировали использовать Camunda. Не успели добавить кафку и другие страницы кроме перевода.
+<img width="1155" height="784" alt="Screenshot 2025-11-14 at 16 23 29" src="https://github.com/user-attachments/assets/d0e78b66-79b5-4029-b766-26e0caed5ae8" />
+
