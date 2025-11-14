@@ -28,6 +28,13 @@ namespace GlobalOnlinebank.WebApi.Controllers
             var contragent = await _accountService.GetByIdAsync(id);
             return Ok(contragent);
         }
+        
+        [HttpGet("by-contragent/{contragentId:long}")]
+        public async Task<ActionResult<AccountDto>> GetByContragent(long contragentId)
+        {
+            var contragent = await _accountService.GetByContragentID(contragentId);
+            return Ok(contragent);
+        }
 
         [HttpPost]
         public async Task<ActionResult<AccountDto>> Create(CreateAccountDto dto)

@@ -64,6 +64,12 @@ namespace GlobalOnlinebank.Application.Services
             var account = await _accountRepository.GetByIdAsync(id);
             return account.ToDto();
         }
+        
+        public async Task<IEnumerable<AccountDto>> GetByContragentID(long id)
+        {
+            var accounts = await _accountRepository.GetByContragentIDAsync(id);
+            return accounts.Select(p => p.ToDto());
+        }
 
         public async Task UpdateAsync(long id, UpdateAccountDto dto)
         {

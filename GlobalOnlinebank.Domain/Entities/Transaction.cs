@@ -44,6 +44,7 @@ namespace GlobalOnlinebank.Domain.Entities
             string senderAccountNumber,
             string receiverAccountNumber,
             decimal amount,
+            decimal commission,
             string currency,
             string recipientName,
             string recipientBankSwift,
@@ -63,6 +64,7 @@ namespace GlobalOnlinebank.Domain.Entities
             ReceiverAccountNumber = receiverAccountNumber;
             Amount = amount;
             Currency = currency;
+            Commission = commission;
             RecipientName = recipientName;
             RecipientBankSwift = recipientBankSwift;
             RecipientBankName = recipientBankName;

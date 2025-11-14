@@ -27,5 +27,7 @@ namespace GlobalOnlinebank.Application.Interfaces
 
         Task<string> GenereateIban();
 
+        Task<IEnumerable<AccountDto>> GetByContragentID(long id);
+
     }
 }

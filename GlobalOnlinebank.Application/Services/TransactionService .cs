@@ -35,7 +35,7 @@ namespace GlobalOnlinebank.Application.Services
             // 1. Загрузка данных клиента
             try
             {
-                long receiverAccountId = -1000;
+                long receiverAccountId = -2;
                 var senderAccount = await _accountService.GetByAccNumberAsync(request.SenderAccountNumber);
                 var senderAccountComissionPayer = await _accountService.GetByAccNumberAsync(request.CommissionPayerAccountNumber);
                 var senderData = await _contragentService.GetByIdAsync(senderAccount.ContragentID);
@@ -84,28 +84,31 @@ namespace GlobalOnlinebank.Application.Services
 
                 var bonusAccount = _accountService.GetBonusAccount();
                 var newBonusPoints = _tariffService.CalculatePoints(Converter.Convert(request.Amount, request.Currency, "KZT"), request.RecipientCountry, request.PaymentPurpose);// 1 бонус за каждые 10 000 KZT перевода
-                if (bonusAccount == null)
+                if (newBonusPoints > 0)
                 {
-                    var newBonusAccount = await _accountService.CreateAsync(new CreateAccountDto(senderData.Id, _accountService.GenereateIban().ToString(), "KZT", 0, AccountType.Bonus));
-                    await _accountService.DepositBalance(newBonusAccount.Id, newBonusPoints, "KZT");
-                }
-                else
-                {
-                    await _accountService.DepositBalance(bonusAccount.Result.Id, newBonusPoints, "KZT");
-                }
-                await _contragentService.AddLoyaltyPointsAsync(senderData.Id, newBonusPoints);
-                // 3. Пополнить получателя
-                if (request.RecipientBankSwift == "HSBKKZKX")
-                {
-                    var receiverAccount = await _accountService.GetByAccNumberAsync(request.ReceiverAccountNumber);
-                    var receiverData = await _contragentService.GetByIdAsync(receiverAccount.ContragentID);
+                    if (bonusAccount == null)
+                    {
+                        var newBonusAccount = await _accountService.CreateAsync(new CreateAccountDto(senderData.Id, _accountService.GenereateIban().ToString(), "KZT", 0, AccountType.Bonus));
+                        await _accountService.DepositBalance(newBonusAccount.Id, newBonusPoints, "KZT");
+                    }
+                    else
+                    {
+                        await _accountService.DepositBalance(bonusAccount.Result.Id, newBonusPoints, "KZT");
+                    }
+                    await _contragentService.AddLoyaltyPointsAsync(senderData.Id, newBonusPoints);
+                    // 3. Пополнить получателя
+                    if (request.RecipientBankSwift == "HSBKKZKX")
+                    {
+                        var receiverAccount = await _accountService.GetByAccNumberAsync(request.ReceiverAccountNumber);
+                        var receiverData = await _contragentService.GetByIdAsync(receiverAccount.ContragentID);
 
-                    receiverAccountId = receiverAccount.Id;
+                        receiverAccountId = receiverAccount.Id;
 
-                    if (receiverAccount == null || !receiverAccount.IsActive)
-                        throw new InvalidOperationException("Accounts are not valid");
+                        if (receiverAccount == null || !receiverAccount.IsActive)
+                            throw new InvalidOperationException("Accounts are not valid");
 
-                    await _accountService.DepositBalance(receiverAccount.Id, request.Amount, request.Currency);
+                        await _accountService.DepositBalance(receiverAccount.Id, request.Amount, request.Currency);
+                    }
                 }
 
                 // 4. Записать транзакцию
@@ -115,6 +118,7 @@ namespace GlobalOnlinebank.Application.Services
                     senderAccount.AccountNumber,
                     request.ReceiverAccountNumber,
                     request.Amount,
+                    commission,
                     request.Currency,
                     request.RecipientName,
                     request.RecipientBankSwift,
